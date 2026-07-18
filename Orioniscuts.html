@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orioniscuts - Cosmic Lawn Care</title>
+    <link rel="icon" type="image/png" href="Logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #0a0b0c;
+            color: #ffffff;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            transition: direction 0.3s ease;
+        }
+
+        /* Interactive Canvas Background Layer */
+        #spaceCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        header { 
+            background-color: rgba(27, 94, 32, 0.9);
+            color: white;
+            padding: 25px 10px;
+            position: relative;
+            z-index: 10;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Orioniscuts Cosmic Font Styling */
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            margin: 0;
+            font-size: 3rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(75, 112, 221, 0.8);
+            text-align: center;
+        }
+
+        /* Language Selector Styling */
+        .language-picker {
+            background: rgba(10, 11, 12, 0.8);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .language-picker:hover {
+            border-color: #4b70dd;
+            box-shadow: 0 0 10px rgba(75, 112, 221, 0.5);
+        }
+
+        .language-picker option {
+            background-color: #0a0b0c;
+            color: #ffffff;
+        }
+
+        /* Video Section */
+        .video-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            background-color: #000;
+            position: relative;
+            z-index: 10;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+        }
+
+        /* Navigation Tabs */
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #0c2e10;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            flex-wrap: wrap;
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            color: #ffffff;
+            padding: 15px 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        nav button:hover, nav button.active {
+            background-color: #2e7d32;
+            color: #ffffff;
+        }
+
+        /* Page Content Containers (Frosted Slate-Gray) */
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 30px 20px;
+            background: rgba(18, 20, 23, 0.85); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+            position: relative;
+            z-index: 10;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .page h2 {
+            margin-top: 0;
+            color: #ffffff;
+            font-size: 2rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .page p {
+            color: #ffffff;
+            font-size: 1.1rem;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .service-card {
+            background: rgba(46, 125, 50, 0.15);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #4caf50;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-right: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: #ffffff;
+            transition: transform 0.3s ease;
+        }
+
+        /* Adjust border accent for RTL layout */
+        [dir="rtl"] .service-card {
+            border-left: 1px solid rgba(255,255,255,0.05);
+            border-right: 5px solid #4caf50;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            background: rgba(46, 125, 50, 0.25);
+        }
+
+        .service-card h3 {
+            margin-top: 0;
+            color: #ffffff;
+        }
+
+        .service-card p {
+            color: #ffffff;
+        }
+
+        /* Table Styles for Schedule */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: rgba(15, 15, 15, 0.4);
+            border-radius: 8px;
+            overflow: hidden;
+            color: #ffffff;
+        }
+
+        th, td {
+            padding: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: #ffffff;
+        }
+
+        th {
+            background-color: #1b5e20;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        /* Summary Styling */
+        .summary-box {
+            background: rgba(46, 125, 50, 0.08);
+            border: 2px dashed rgba(129, 199, 132, 0.4);
+            padding: 25px;
+            border-radius: 8px;
+            text-align: left;
+            line-height: 1.8;
+            color: #ffffff;
+            margin-bottom: 30px;
+        }
+
+        [dir="rtl"] .summary-box {
+            text-align: right;
+        }
+
+        .summary-box p, .summary-box li {
+            color: #ffffff;
+        }
+
+        .summary-box ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        [dir="rtl"] .summary-box ul {
+            padding-left: 0;
+            padding-right: 20px;
+        }
+
+        .summary-box li {
+            margin-bottom: 5px;
+        }
+
+        /* Nebula Section Styling */
+        .nebula-section {
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+        }
+
+        .nebula-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .nebula-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(75, 112, 221, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nebula-card:hover {
+            transform: scale(1.02);
+            border-color: rgba(75, 112, 221, 0.6);
+            box-shadow: 0 4px 20px rgba(75, 112, 221, 0.2);
+        }
+
+        .nebula-card h3 {
+            margin-top: 0;
+            color: #4b70dd;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 8px;
+        }
+
+        .nebula-card p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        /* Pricing Layout */
+        .pricing-grid {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        /* Pricing Card Design */
+        .price-card {
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 40px 25px; 
+            width: 310px;       
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .price-card.basic {
+            border-color: rgba(75, 112, 221, 0.2);
+        }
+
+        .price-card.basic:hover {
+            transform: translateY(-8px);
+            background: rgba(26, 42, 108, 0.85);
+            border-color: #4b70dd;
+            box-shadow: 0 10px 25px rgba(75, 112, 221, 0.3);
+        }
+
+        .price-card.premium {
+            border-color: rgba(255, 23, 68, 0.2);
+        }
+
+        .price-card.premium:hover {
+            transform: translateY(-8px);
+            background: rgba(136, 14, 79, 0.65);
+            border-color: #ff1744;
+            box-shadow: 0 10px 25px rgba(255, 23, 68, 0.4);
+        }
+
+        .price-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+            color: #ffffff;
+        }
+
+        .price-amount {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #ffffff;
+        }
+
+        .price-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        [dir="rtl"] .price-card ul {
+            text-align: right;
+        }
+
+        .price-card li {
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            color: #ffffff;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        [dir="rtl"] .price-card li {
+            padding-left: 0;
+            padding-right: 20px;
+        }
+
+        .price-card.basic li::before {
+            content: "✦";
+            position: absolute;
+            left: 0;
+            color: #4b70dd;
+        }
+
+        [dir="rtl"] .price-card.basic li::before {
+            left: auto;
+            right: 0;
+        }
+
+        .price-card.premium li::before {
+            content: "✦";
+            position: absolute;
+            left: 0;
+            color: #ff1744;
+        }
+
+        [dir="rtl"] .price-card.premium li::before {
+            left: auto;
+            right: 0;
+        }
+
+        .price-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .price-card.basic .price-btn {
+            background: #4b70dd;
+            color: #ffffff;
+            box-shadow: 0 0 12px rgba(75, 112, 221, 0.4);
+        }
+
+        .price-card.basic .price-btn:hover {
+            background: #365bbb;
+            box-shadow: 0 0 18px rgba(75, 112, 221, 0.7);
+        }
+
+        .price-card.premium .price-btn {
+            background: #b71c1c;
+            color: #ffffff;
+        }
+
+        .price-card.premium .price-btn:hover {
+            background: #ff1744;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="spaceCanvas"></canvas>
+
+    <header>
+    <img src="logo.png" alt="Orioniscuts Logo" style="height: 80px; width: auto; max-width: 100%; border-radius: 8px; margin-bottom: 5px;">
+    
+    <h1>Orioniscuts</h1>
+    <select class="language-picker" id="langSelector" onchange="changeLanguage(this.value)">
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+        <option value="hi">हिन्दी (Hindi)</option>
+        <option value="ur">اردو (Urdu)</option>
+        <option value="bn">বাংলা (Bengali)</option>
+        <option value="zh">中文 (Chinese)</option>
+        <option value="ja">日本語 (Japanese)</option>
+        <option value="ko">한국어 (Korean)</option>
+        <option value="om">Oromoo (Oromo)</option>
+        <option value="so">Soomaali (Somali)</option>
+        <option value="ar">العربية (Arabic)</option>
+    </select>
+</header>
+
+    <div class="video-container">
+        <video controls autoplay muted loop>
+            <source src="lawn-mowing-video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <nav>
+        <button id="nav-services" class="tab-btn active" onclick="openPage('services', this)">Our Services</button>
+        <button id="nav-pricing" class="tab-btn" onclick="openPage('pricing', this)">Pricing Plans</button>
+        <button id="nav-schedule" class="tab-btn" onclick="openPage('schedule', this)">Hours & Dates</button>
+        <button id="nav-summary" class="tab-btn" onclick="openPage('summary', this)">About Us Summary</button>
+    </nav>
+
+    <div class="container">
+        <div id="services" class="page active">
+            <h2 id="services-title">What We Can Do For You</h2>
+            <p id="services-desc">We keep your property looking clean and tidy all year round in Brooks!</p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3 id="card-mow-title">🌱 Lawn Mowing</h3>
+                    <p id="card-mow-desc">Clean, precise cuts to keep your grass healthy and looking sharp.</p>
+                </div>
+                <div class="service-card">
+                    <h3 id="card-leaf-title">🍂 Leaf Blowing</h3>
+                    <p id="card-leaf-desc">Clearing out messy leaves and debris from yards, decks, and driveways.</p>
+                </div>
+                <div class="service-card">
+                    <h3 id="card-snow-title">❄️ Snow Shoveling</h3>
+                    <p id="card-snow-desc">Safe, prompt snow removal for paths and driveways during the cold winter.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="pricing" class="page">
+            <h2 id="pricing-title">Our Rates</h2>
+            <p id="pricing-desc">Out-of-this-world service at down-to-earth pricing!</p>
+
+            <div class="pricing-grid">
+                <div class="price-card basic">
+                    <h3 id="plan-basic-title">Basic</h3>
+                    <div class="price-amount">$10</div>
+                    <ul>
+                        <li id="p1-l1">Backyard Care</li>
+                        <li id="p1-l2">Front Yard Care</li>
+                        <li id="p1-l3">Standard Grass Cutting</li>
+                        <li id="p1-l4">Leaf blowing</li>
+                        <li id="p1-l5">Winter snow shoveling</li>
+                    </ul>
+                  <button id="btn-book-basic" class="price-btn" onclick="openEmailDraft('Basic')">Book Basic</button>
+                </div>
+
+                <div class="price-card premium">
+                    <h3 id="plan-premium-title">Premium</h3>
+                    <div class="price-amount">$15</div>
+                    <ul>
+                        <li id="p2-l1">Sidewalk Cutting &amp; Grass Cutting</li>
+                        <li id="p2-l2">Backyard &amp; Front Yard</li>
+                        <li id="p2-l3">Everything around the house</li>
+                        <li id="p2-l4">Leaf blowing</li>
+                        <li id="p2-l5">Winter snow shoveling</li>
+                    </ul>
+                    <button id="btn-book-premium" class="price-btn" onclick="openEmailDraft('Premium')">Book Premium</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="schedule" class="page">
+            <h2 id="schedule-title">Our Work Schedule</h2>
+            <p id="schedule-desc">Check out our operating hours for each season below:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th id="th-season">Season</th>
+                        <th id="th-days">Days Open</th>
+                        <th id="th-hours">Operating Hours</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong id="td-spring">Spring</strong></td>
+                        <td id="td-spring-days">Sunday Only</td>
+                        <td id="td-spring-hours">1:00 PM - 3:00 PM</td>
+                    </tr>
+                    <tr>
+                        <td><strong id="td-summer">Summer</strong><br><span id="td-summer-sub">(School Closed)</span></td>
+                        <td id="td-summer-days">Monday to Thursday</td>
+                        <td id="td-summer-hours">1:00 PM - 4:00 PM</td>
+                    </tr>
+                    <tr>
+                        <td><strong id="td-fall">Fall/Autumn</strong></td>
+                        <td id="td-fall-days">Sunday Only</td>
+                        <td id="td-fall-hours">1:00 PM - 3:00 PM</td>
+                    </tr>
+                    <tr>
+                        <td><strong id="td-winter">Winter</strong></td>
+                        <td id="td-winter-days">Sunday Only</td>
+                        <td id="td-winter-hours">1:00 PM - 3:00 PM</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="summary" class="page">
+            <h2 id="summary-title">Business Summary</h2>
+            <div class="summary-box">
+                <p><strong id="sum-name-lbl">🏠 Business Name:</strong> <span id="sum-name-val">Orioniscuts</span></p>
+                <p><strong id="sum-serv-lbl">🛠️ Services Offered:</strong> <span id="sum-serv-val">We provide seasonal yard maintenance including professional lawn mowing, quick leaf blowing, and reliable winter snow shoveling.</span></p>
+                <p><strong id="sum-avail-lbl">📅 Availability:</strong> 
+                    <ul>
+                        <li id="sum-avail-val1"><strong>Spring, Fall &amp; Winter:</strong> Sundays only from 1:00 PM to 3:00 PM.</li>
+                        <li id="sum-avail-val2"><strong>Summer:</strong> Weekdays (Monday–Thursday) from 1:00 PM to 4:00 PM.</li>
+                    </ul>
+                </p>
+                <p><strong id="sum-area-lbl">📍 Service Area:</strong> <span id="sum-area-val">Proudly serving the local community of Brooks!</span></p>
+            </div>
+
+            <div class="nebula-section">
+                <h2 id="nebula-title">🌌 Our Cosmic Neighbors</h2>
+                <p id="nebula-desc">When we aren't looking down at your lawn, we are looking up at the stars! Here are some of our favorite deep space wonders:</p>
+                <div class="nebula-grid">
+                    <div class="nebula-card">
+                        <h3 id="neb-m16-title">Eagle Nebula (M16)</h3>
+                        <p id="neb-m16-desc">Located roughly 5,700 light-years away, it is globally famous for containing the iconic "Pillars of Creation," where active star birth occurs.</p>
+                    </div>
+                    <div class="nebula-card">
+                        <h3><span id="neb-m17-title">Omega Nebula</span> (M17)</h3>
+                        <p id="neb-m17-desc">Also known as the Swan or Horseshoe Nebula, this bright star-forming region sits about 5,500 light-years from Earth in the Sagittarius constellation.</p>
+                    </div>
+                    <div class="nebula-card">
+                        <h3><span id="neb-m20-title">Trifid Nebula</span> (M20)</h3>
+                        <p id="neb-m20-desc">Famous for its distinct three-lobed appearance, it uniquely combines an emission nebula (red), a reflection nebula (blue), and dark absorption lanes.</p>
+                    </div>
+                    <div class="nebula-card">
+                        <h3><span id="neb-m8-title">Lagoon Nebula</span> (M8)</h3>
+                        <p id="neb-m8-desc">A massive cloud of gas and dust visible through small binoculars, located 4,000 light-years away in the direction of the galactic center.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openEmailDraft(planType) {
+    const businessEmail = "orioniscuts@gmail.com"; 
+    
+    // 1. Calculate the date exactly 2 weeks (14 days) from today
+    const today = new Date();
+    const twoWeeksFromToday = new Date(today);
+    twoWeeksFromToday.setDate(today.getDate() + 14);
+    
+    // Format the date nicely (e.g., "Sunday, August 3, 2026")
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDate = twoWeeksFromToday.toLocaleDateString('en-US', options);
+    
+    // 2. Build the email subject and body
+    const subject = encodeURIComponent(`Booking Request - ${planType} Plan`);
+    const emailBody = `Hello Orioniscuts Team,
+
+I would like to book your ${planType} Plan for seasonal yard maintenance. 
+
+Please find my scheduling details below:
+• Name:                                                                         (Ex Jane Juliet remove this)
+• Address: 
+• Requested Date:                                       (Has to be in two weeks or less from 1:00PM to 4:00PM. You can remove this.)
+Thank you. I hope you have a wonderful day!`;
+
+    const body = encodeURIComponent(emailBody);
+    
+    // 3. Open the user's default email client (Gmail, Outlook, Mail app, etc.)
+    window.location.href = `mailto:${businessEmail}?subject=${subject}&body=${body}`;
+}
+        // Page navigation handler
+        function openPage(pageId, btnElement) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(pageId).classList.add('active');
+
+            if (btnElement) {
+                btnElement.classList.add('active');
+            }
+        }
+
+        // --- TRANSLATION AND LOCALIZATION DATABASE ---
+        // Fix: All single quotes are now properly escaped (\') to prevent syntax breaks
+        const translations = {
+            en: {
+                dir: 'ltr',
+                'nav-services': 'Our Services',
+                'nav-pricing': 'Pricing Plans',
+                'nav-schedule': 'Hours & Dates',
+                'nav-summary': 'About Us Summary',
+                'services-title': 'What We Can Do For You',
+                'services-desc': 'We keep your property looking clean and tidy all year round in Brooks!',
+                'card-mow-title': '🌱 Lawn Mowing',
+                'card-mow-desc': 'Clean, precise cuts to keep your grass healthy and looking sharp.',
+                'card-leaf-title': '🍂 Leaf Blowing',
+                'card-leaf-desc': 'Clearing out messy leaves and debris from yards, decks, and driveways.',
+                'card-snow-title': '❄️ Snow Shoveling',
+                'card-snow-desc': 'Safe, prompt snow removal for paths and driveways during the cold winter.',
+                'pricing-title': 'Our Rates',
+                'pricing-desc': 'Out-of-this-world service at down-to-earth pricing!',
+                'plan-basic-title': 'Basic',
+                'btn-book-basic': 'Book Basic',
+                'plan-premium-title': 'Premium',
+                'btn-book-premium': 'Book Premium',
+                'p1-l1': 'Backyard Care', 'p1-l2': 'Front Yard Care', 'p1-l3': 'Standard Grass Cutting', 'p1-l4': 'Leaf blowing', 'p1-l5': 'Winter snow shoveling',
+                'p2-l1': 'Sidewalk Cutting & Grass Cutting', 'p2-l2': 'Backyard & Front Yard', 'p2-l3': 'Everything around the house', 'p2-l4': 'Leaf blowing', 'p2-l5': 'Winter snow shoveling',
+                'schedule-title': 'Our Work Schedule',
+                'schedule-desc': 'Check out our operating hours for each season below:',
+                'th-season': 'Season', 'th-days': 'Days Open', 'th-hours': 'Operating Hours',
+                'td-spring': 'Spring', 'td-spring-days': 'Sunday Only', 'td-spring-hours': '1:00 PM - 3:00 PM',
+                'td-summer': 'Summer', 'td-summer-sub': '(School Closed)', 'td-summer-days': 'Monday to Thursday', 'td-summer-hours': '1:00 PM - 4:00 PM',
+                'td-fall': 'Fall/Autumn', 'td-fall-days': 'Sunday Only', 'td-fall-hours': '1:00 PM - 3:00 PM',
+                'td-winter': 'Winter', 'td-winter-days': 'Sunday Only', 'td-winter-hours': '1:00 PM - 3:00 PM',
+                'summary-title': 'Business Summary',
+                'sum-name-lbl': '🏠 Business Name:', 'sum-name-val': 'Orioniscuts',
+                'sum-serv-lbl': '🛠️ Services Offered:', 'sum-serv-val': 'We provide seasonal yard maintenance including professional lawn mowing, quick leaf blowing, and reliable winter snow shoveling.',
+                'sum-avail-lbl': '📅 Availability:',
+                'sum-avail-val1': 'Spring, Fall & Winter: Sundays only from 1:00 PM to 3:00 PM.',
+                'sum-avail-val2': 'Summer: Weekdays (Monday–Thursday) from 1:00 PM to 4:00 PM.',
+                'sum-area-lbl': '📍 Service Area:', 'sum-area-val': 'Proudly serving the local community of Brooks!',
+                'nebula-title': '🌌 Our Cosmic Neighbors',
+                'nebula-desc': 'When we aren\'t looking down at your lawn, we are looking up at the stars! Here are some of our favorite deep space wonders:',
+                'neb-m16-title': 'Eagle Nebula (M16)', 'neb-m16-desc': 'Located roughly 5,700 light-years away, it is globally famous for containing the iconic "Pillars of Creation," where active star birth occurs.',
+                'neb-m17-title': 'Omega Nebula', 'neb-m17-desc': 'Also known as the Swan or Horseshoe Nebula, this bright star-forming region sits about 5,500 light-years from Earth in the Sagittarius constellation.',
+                'neb-m20-title': 'Trifid Nebula', 'neb-m20-desc': 'Famous for its distinct three-lobed appearance, it uniquely combines an emission nebula (red), a reflection nebula (blue), and dark absorption lanes.',
+                'neb-m8-title': 'Lagoon Nebula', 'neb-m8-desc': 'A massive cloud of gas and dust visible through small binoculars, located 4,000 light-years away in the direction of the galactic center.'
+            },
+            fr: {
+                dir: 'ltr',
+                'nav-services': 'Nos Services',
+                'nav-pricing': 'Tarification',
+                'nav-schedule': 'Heures & Dates',
+                'nav-summary': 'Résumé',
+                'services-title': 'Ce Que Nous Pouvons Faire Pour Vous',
+                'services-desc': 'Nous gardons votre propriété propre et bien rangée toute l\'année à Brooks !',
+                'card-mow-title': '🌱 Tonte de Pelouse',
+                'card-mow-desc': 'Coupes nettes et précises pour garder votre herbe saine et soignée.',
+                'card-leaf-title': '🍂 Soufflage de Feuilles',
+                'card-leaf-desc': 'Nettoyage des feuilles mortes et des débris dans les cours, terrasses et allées.',
+                'card-snow-title': '❄️ Déneigement',
+                'card-snow-desc': 'Déneigement rapide et sécuritaire pour vos sentiers et allées durant l\'hiver.',
+                'pricing-title': 'Nos Tarifs',
+                'pricing-desc': 'Un service exceptionnel à des prix très terre-à-terre !',
+                'plan-basic-title': 'De Base',
+                'btn-book-basic': 'Réserver De Base',
+                'plan-premium-title': 'Premium',
+                'btn-book-premium': 'Réserver Premium',
+                'p1-l1': 'Entretien de la cour arrière', 'p1-l2': 'Entretien de la cour avant', 'p1-l3': 'Tonte de gazon standard', 'p1-l4': 'Soufflage de feuilles', 'p1-l5': 'Déneigement hivernal',
+                'p2-l1': 'Tonte de trottoir et de gazon', 'p2-l2': 'Cour arrière et cour avant', 'p2-l3': 'Tout autour de la maison', 'p2-l4': 'Soufflage de feuilles', 'p2-l5': 'Déneigement hivernal',
+                'schedule-title': 'Notre Emploi du Temps',
+                'schedule-desc': 'Découvrez nos horaires d\'ouverture selon les saisons ci-dessous :',
+                'th-season': 'Saison', 'th-days': 'Jours d\'ouverture', 'th-hours': 'Heures d\'ouverture',
+                'td-spring': 'Printemps', 'td-spring-days': 'Dimanche Uniquement', 'td-spring-hours': '13h00 - 15h00',
+                'td-summer': 'Été', 'td-summer-sub': '(École Fermée)', 'td-summer-days': 'Lundi au Jeudi', 'td-summer-hours': '13h00 - 16h00',
+                'td-fall': 'Automne', 'td-fall-days': 'Dimanche Uniquement', 'td-fall-hours': '13h00 - 15h00',
+                'td-winter': 'Hiver', 'td-winter-days': 'Dimanche Uniquement', 'td-winter-hours': '13h00 - 15h00',
+                'summary-title': 'Résumé de l\'Entreprise',
+                'sum-name-lbl': '🏠 Nom de l\'entreprise :', 'sum-name-val': 'Orioniscuts',
+                'sum-serv-lbl': '🛠️ Services Offerts :', 'sum-serv-val': 'Nous offrons l\'entretien paysager saisonnier comprenant la tonte de gazon, le soufflage de feuilles et le déneigement en hiver.',
+                'sum-avail-lbl': '📅 Disponibilité :',
+                'sum-avail-val1': 'Printemps, Automne et Hiver : Uniquement le dimanche de 13h00 à 15h00.',
+                'sum-avail-val2': 'Été : En semaine (lundi au jeudi) de 13h00 à 16h00.',
+                'sum-area-lbl': '📍 Zone de service :', 'sum-area-val': 'Fier de servir la communauté locale de Brooks !',
+                'nebula-title': '🌌 Nos Voisins Cosmiques',
+                'nebula-desc': 'Quand nous ne regardons pas votre pelouse, nous contemplons les étoiles ! Voici quelques-unes de nos merveilles spatiales préférées :',
+                'neb-m16-title': 'Nébuleuse de l\'Aigle (M16)', 'neb-m16-desc': 'Située à environ 5 700 années-lumière, elle abrite les emblématiques "Piliers de la Création", une région active de formation d\'étoiles.',
+                'neb-m17-title': 'Nébuleuse Oméga', 'neb-m17-desc': 'Aussi connue sous le nom de nébuleuse du Cygne, cette pouponnière d\'étoiles brillante se trouve à 5 500 années-lumière dans le Sagittaire.',
+                'neb-m20-title': 'Nébuleuse Trifide', 'neb-m20-desc': 'Célèbre pour son aspect trilobé unique, elle combine une nébuleuse en émission (rouge), par réflexion (bleue) et des bandes de poussière sombres.',
+                'neb-m8-title': 'Nébuleuse de la Lagune', 'neb-m8-desc': 'Un nuage géant de gaz et de poussière visible aux jumelles, situé à 4 000 années-lumière en direction du centre galactique.'
+            },
+            hi: {
+                dir: 'ltr',
+                'nav-services': 'हमारी सेवाएं',
+                'nav-pricing': 'मूल्य निर्धारण',
+                'nav-schedule': 'कार्य समय और दिन',
+                'nav-summary': 'हमारे बारे में',
+                'services-title': 'हम आपके लिए क्या कर सकते हैं',
+                'services-desc': 'हम ब्रूक्स में साल भर आपकी संपत्ति को साफ-सुथरा और व्यवस्थित रखते हैं!',
+                'card-mow-title': '🌱 घास काटना',
+                'card-mow-desc': 'आपकी घास को स्वस्थ और सुंदर बनाए रखने के लिए सटीक और साफ कटाई।',
+                'card-leaf-title': '🍂 पत्ते साफ करना',
+                'card-leaf-desc': 'आंगन, डेक और ड्राइववे से बिखरे हुए पत्तों और कचरे की सफाई।',
+                'card-snow-title': '❄️ बर्फ हटाना',
+                'card-snow-desc': 'सर्दियों के दौरान रास्तों और ड्राइववे से त्वरित और सुरक्षित बर्फ की सफाई।',
+                'pricing-title': 'हमारी दरें',
+                'pricing-desc': 'असाधारण सेवाएं, बेहद किफायती कीमतों पर!',
+                'plan-basic-title': 'बेसिक',
+                'btn-book-basic': 'बेसिक बुक करें',
+                'plan-premium-title': 'प्रीमियम',
+                'btn-book-premium': 'प्रीमियम बुक करें',
+                'p1-l1': 'पीछे के आंगन की देखभाल', 'p1-l2': 'सामने के आंगन की देखभाल', 'p1-l3': 'सामान्य घास की कटाई', 'p1-l4': 'पत्ते साफ करना', 'p1-l5': 'सर्दियों में बर्फ हटाना',
+                'p2-l1': 'फुटपाथ और घास की कटाई', 'p2-l2': 'पीछे और सामने का आंगन', 'p2-l3': 'घर के आसपास का सारा काम', 'p2-l4': 'पत्ते साफ करना', 'p2-l5': 'सर्दियों में बर्फ हटाना',
+                'schedule-title': 'हमारी कार्य समय सारणी',
+                'schedule-desc': 'नीचे दिए गए प्रत्येक मौसम के लिए हमारे काम के घंटे देखें:',
+                'th-season': 'मौसम', 'th-days': 'खुले दिन', 'th-hours': 'काम के घंटे',
+                'td-spring': 'वसंत', 'td-spring-days': 'केवल रविवार', 'td-spring-hours': 'दोपहर 1:00 - दोपहर 3:00 बजे',
+                'td-summer': 'गर्मी', 'td-summer-sub': '(स्कूल बंद)', 'td-summer-days': 'सोमवार से गुरुवार', 'td-summer-hours': 'दोपहर 1:00 - शाम 4:00 बजे',
+                'td-fall': 'पतझड़', 'td-fall-days': 'केवल रविवार', 'td-fall-hours': 'दोपहर 1:00 - दोपहर 3:00 बजे',
+                'td-winter': 'सर्दी', 'td-winter-days': 'केवल रविवार', 'td-winter-hours': 'दोपहर 1:00 - दोपहर 3:00 बजे',
+                'summary-title': 'व्यवसाय विवरण',
+                'sum-name-lbl': '🏠 व्यवसाय का नाम:', 'sum-name-val': 'Orioniscuts',
+                'sum-serv-lbl': '🛠️ दी जाने वाली सेवाएं:', 'sum-serv-val': 'हम लॉन की घास काटने, पत्तों की सफाई करने और सर्दियों में बर्फ हटाने सहित मौसमी यार्ड रखरखाव प्रदान करते हैं।',
+                'sum-avail-lbl': '📅 उपलब्धता:',
+                'sum-avail-val1': 'वसंत, पतझड़ और सर्दियों में: केवल रविवार को दोपहर 1:00 बजे से दोपहर 3:00 बजे तक।',
+                'sum-avail-val2': 'गर्मियों में: कार्यदिवस (सोमवार-गुरुवार) दोपहर 1:00 बजे से शाम 4:00 बजे तक।',
+                'sum-area-lbl': '📍 सेवा क्षेत्र:', 'sum-area-val': 'ब्रूक्स के स्थानीय समुदाय की सेवा करने में हमें गर्व है!',
+                'nebula-title': '🌌 हमारे ब्रह्मांडीय पड़ोसी',
+                'nebula-desc': 'जब हम आपके लॉन की घास नहीं काट रहे होते, तब हम सितारों की ओर देख रहे होते हैं! ये हमारे पसंदीदा गहरे अंतरिक्ष के चमत्कार हैं:',
+                'neb-m16-title': 'ईगल नेबुला (M16)', 'neb-m16-desc': 'लगभग 5,700 प्रकाश-वर्ष दूर स्थित, यह अपने प्रतिष्ठित "पिलर्स ऑफ क्रिएशन" के लिए दुनिया भर में प्रसिद्ध है, जहां नए तारों का जन्म होता है।',
+                'neb-m17-title': 'ओमेगा नेबुला', 'neb-m17-desc': 'इसे स्वान या हॉर्सशू नेबुला भी कहा जाता है, तारों के निर्माण का यह क्षेत्र धनु राशि में पृथ्वी से लगभग 5,500 प्रकाश-वर्ष दूर है।',
+                'neb-m20-title': 'ट्रिफ़िड नेबुला', 'neb-m20-desc': 'अपने विशिष्ट तीन-लोब वाले आकार के लिए प्रसिद्ध, यह विशेष रूप से उत्सर्जन नेबुला (लाल), परावर्तन नेबुला (नीला) और धूल की काली पट्टियों को जोड़ता है।',
+                'neb-m8-title': 'लगून नेबुला', 'neb-m8-desc': 'गैस और धूल का एक विशाल बादल जो दूरबीन से भी दिखाई देता है, यह आकाशगंगा के केंद्र की दिशा में 4,000 प्रकाश-वर्ष दूर स्थित है।'
+            },
+            ur: {
+                dir: 'rtl',
+                'nav-services': 'ہماری خدمات',
+                'nav-pricing': 'قیمتیں',
+                'nav-schedule': 'اوقات اور تواریخ',
+                'nav-summary': 'ہمارے بارے میں',
+                'services-title': 'ہم آپ کے لیے کیا کر سکتے ہیں',
+                'services-desc': 'ہم بروکس میں سارا سال آپ کے گھر اور لان کو صاف ستھرا اور خوبصورت رکھتے ہیں!',
+                'card-mow-title': '🌱 گھاس کی کٹائی',
+                'card-mow-desc': 'آپ کے لان کی گھاس کو صحت مند رکھنے کے لیے صاف اور بہترین کٹائی۔',
+                'card-leaf-title': '🍂 پتے اڑانا',
+                'card-leaf-desc': 'آنگن، ڈیک اور راستوں سے گرے ہوئے پتوں اور کچرے کی صفائی۔',
+                'card-snow-title': '❄️ برف ہٹانا',
+                'card-snow-desc': 'سردیوں کے موسم میں راستوں اور گاڑی کھڑی کرنے کی جگہوں سے برف کی صفائی۔',
+                'pricing-title': 'ہماری قیمتیں',
+                'pricing-desc': 'شاندار سروس، انتہائی مناسب داموں میں!',
+                'plan-basic-title': 'بنیادی',
+                'btn-book-basic': 'بنیادی بک کریں',
+                'plan-premium-title': 'پریمیم',
+                'btn-book-premium': 'پریمیم بک کریں',
+                'p1-l1': 'پچھلے آنگن کی دیکھ بھال', 'p1-l2': 'سامنے کے آنگن کی دیکھ بھال', 'p1-l3': 'عام گھاس کی کٹائی', 'p1-l4': 'پتے صاف کرنا', 'p1-l5': 'سردیوں میں برف ہٹانا',
+                'p2-l1': 'فٹ پاتھ اور گھاس کی کٹائی', 'p2-l2': 'پچھلا اور سامنے کا آنگن', 'p2-l3': 'گھر کے ارد گرد کا تمام کام', 'p2-l4': 'پتے صاف کرنا', 'p2-l5': 'سردیوں میں برف ہٹانا',
+                'schedule-title': 'ہمارا شیڈول',
+                'schedule-desc': 'مختلف موسموں کے اوقات کار نیچے جدول میں دیکھیں:',
+                'th-season': 'موسم', 'th-days': 'کھلے دن', 'th-hours': 'اوقات کار',
+                'td-spring': 'بہار', 'td-spring-days': 'صرف اتوار', 'td-spring-hours': 'دوپہر 1:00 سے 3:00 بجے تک',
+                'td-summer': 'گرمی', 'td-summer-sub': '(اسکول بند)', 'td-summer-days': 'پیر سے جمعرات', 'td-summer-hours': 'دوپہر 1:00 سے شام 4:00 بجے تک',
+                'td-fall': 'خزاں', 'td-fall-days': 'صرف اتوار', 'td-fall-hours': 'دوپہر 1:00 سے 3:00 بجے تک',
+                'td-winter': 'سردی', 'td-winter-days': 'صرف اتوار', 'td-winter-hours': 'دوپہر 1:00 سے 3:00 بجے تک',
+                'summary-title': 'کاروباری خلاصہ',
+                'sum-name-lbl': '🏠 کاروبار کا نام:', 'sum-name-val': 'Orioniscuts',
+                'sum-serv-lbl': '🛠️ فراہم کردہ خدمات:', 'sum-serv-val': 'ہم لان کاٹنے، پتے صاف کرنے اور سردیوں میں برف ہٹانے سمیت لان کی موسمی دیکھ بھال کی خدمات پیش کرتے ہیں۔',
+                'sum-avail-lbl': '📅 دستیابی:',
+                'sum-avail-val1': 'بہار، خزاں اور سردی: صرف اتوار کو دوپہر 1:00 بجے سے 3:00 بجے تک۔',
+                'sum-avail-val2': 'گرمی: کاروباری دن (پیر تا جمعرات) دوپہر 1:00 بجے سے شام 4:00 بجے تک۔',
+                'sum-area-lbl': '📍 سروس ایریا:', 'sum-area-val': 'بروکس کے مقامی لوگوں کی خدمت کرنا ہمارے لیے فخر کی بات ہے!',
+                'nebula-title': '🌌 ہمارے کائناتی پڑوسی',
+                'nebula-desc': 'جب ہم آپ کے لان کی دیکھ بھال نہیں کر رہے ہوتے، تو ہماری نظریں تاروں پر ہوتی ہیں! یہاں خلا کے کچھ مشہور مناظر درج ہیں:',
+                'neb-m16-title': 'ایگل نیبولا (M16)', 'neb-m16-desc': 'تقریباً 5,700 نوری سال کے فاصلے پر واقع یہ نیبولا اپنے "پیلرز آف کریشن" کے لیے دنیا بھر میں مشہور ہے جہاں نئے ستارے جنم لیتے ہیں۔',
+                'neb-m17-title': 'اومیگا نیبولا', 'neb-m17-desc': 'اسے ہارس شو یا سوان نیبولا بھی کہا جاتا ہے، یہ قوس کے جھرمٹ میں واقع ایک روشن خطہ ہے جو زمین سے 5,500 نوری سال دور ہے۔',
+                'neb-m20-title': 'ٹریفڈ نیبولا', 'neb-m20-desc': 'اپنے منفرد تین حصوں والے ڈھانچے کے لیے مشہور، یہ نیبولا اپنے سرخ، نیلے رنگ اور گرد و غبار کی کالی تہوں کے امتزاج کی وجہ سے منفرد حیثیت رکھتا ہے۔',
+                'neb-m8-title': 'لگون نیبولا', 'neb-m8-desc': 'گیس اور گرد و غبار کا ایک بڑا بادل جو دوربین سے آسانی سے دیکھا جا سکتا ہے، یہ کہکشاں کے مرکز سے 4,000 نوری سال کے فاصلے پر واقع ہے۔'
+            },
+            bn: {
+                dir: 'ltr',
+                'nav-services': 'আমাদের সেবা',
+                'nav-pricing': 'মূল্য তালিকা',
+                'nav-schedule': 'সময় ও দিন',
+                'nav-summary': 'আমাদের সম্পর্কে',
+                'services-title': 'আমরা আপনার জন্য কী করতে পারি',
+                'services-desc': 'ব্রুকস-এ আমরা আপনার উঠানকে সারা বছর পরিষ্কার এবং পরিপাটি রাখি!',
+                'card-mow-title': '🌱 ঘাস কাটা',
+                'card-mow-desc': 'আপনার ঘাসকে সুস্থ এবং সুন্দর রাখতে পরিষ্কার ও নিখুঁত কাট।',
+                'card-leaf-title': '🍂 পাতা পরিষ্কার',
+                'card-leaf-desc': 'উঠান, ডেক এবং ড্রাইভওয়ে থেকে পাতা ও অন্যান্য আবর্জনা ফু দিয়ে পরিষ্কার করা।',
+                'card-snow-title': '❄️ বরফ সরানো',
+                'card-snow-desc': 'শীতকালে চলাচলের পথ এবং ড্রাইভওয়ে থেকে দ্রুত ও নিরাপদে বরফ সরানো।',
+                'pricing-title': 'আমাদের মূল্য',
+                'pricing-desc': 'অসাধারণ সেবা, অত্যন্ত সাশ্রয়ী মূল্যে!',
+                'plan-basic-title': 'বেসিক',
+                'btn-book-basic': 'বেসিক বুক করুন',
+                'plan-premium-title': 'প্রিমিয়াম',
+                'btn-book-premium': 'প্রিমিয়াম বুক করুন',
+                'p1-l1': 'পেছনের উঠানের যত্ন', 'p1-l2': 'সামনের উঠানের যত্ন', 'p1-l3': 'সাধারণ ঘাস কাটা', 'p1-l4': 'পাতা পরিষ্কার', 'p1-l5': 'শীতকালীন বরফ সরানো',
+                'p2-l1': 'ফুটপাথ এবং ঘাস কাটা', 'p2-l2': 'পেছনের ও সামনের উঠান', 'p2-l3': 'বাড়ির চারপাশের সবকিছু', 'p2-l4': 'পাতা পরিষ্কার', 'p2-l5': 'শীতকালীন বরফ সরানো',
+                'schedule-title': 'আমাদের কাজের সময়সূচী',
+                'schedule-desc': 'প্রতিটি ঋতুর জন্য আমাদের কাজের সময় নিচে দেখুন:',
+                'th-season': 'ঋতু', 'th-days': 'খোলার দিন', 'th-hours': 'কাজের সময়',
+                'td-spring': 'বসন্ত', 'td-spring-days': 'শুধুমাত্র রবিবার', 'td-spring-hours': 'দুপুর ১:০০ - দুপুর ৩:০০',
+                'td-summer': 'গ্রীষ্ম', 'td-summer-sub': '(স্কুল বন্ধ)', 'td-summer-days': 'সোমবার থেকে বৃহস্পতিবার', 'td-summer-hours': 'দুপুর ১:০০ - বিকাল ৪:০০',
+                'td-fall': 'শরৎ/হেমন্ত', 'td-fall-days': 'শুধুমাত্র রবিবার', 'td-fall-hours': 'দুপুর ১:০০ - দুপুর ৩:০০',
+                'td-winter': 'শীতকাল', 'td-winter-days': 'শুধুমাত্র রবিবার', 'td-winter-hours': 'দুপুর ১:০০ - দুপুর ৩:০০',
+                'summary-title': 'ব্যবসার সংক্ষিপ্ত বিবরণ',
+                'sum-name-lbl': '🏠 ব্যবসার নাম:', 'sum-name-val': 'Orioniscuts',
+                'sum-serv-lbl': '🛠️ প্রদত্ত সেবাসমূহ:', 'sum-serv-val': 'আমরা ঘাস কাটা, পাতা পরিষ্কার করা এবং শীতকালে বরফ সরানোসহ উঠানের ঋতুভিত্তিক রক্ষণাবেক্ষণ সেবা প্রদান করি।',
+                'sum-avail-lbl': '📅 উপলব্ধতা:',
+                'sum-avail-val1': 'বসন্ত, শরৎ ও শীতকাল: শুধুমাত্র রবিবার দুপুর ১:০০ থেকে দুপুর ৩:০০ পর্যন্ত।',
+                'sum-avail-val2': 'গ্রীষ্মকাল: সপ্তাহের কর্মদিবস (সোমবার-বৃহস্পতিবার) দুপুর ১:০০ থেকে বিকাল ৪:০০ পর্যন্ত।',
+                'sum-area-lbl': '📍 সেবা এলাকা:', 'sum-area-val': 'ব্রুকসের স্থানীয় জনগণের সেবা করতে পেরে আমরা গর্বিত!',
+                'nebula-title': '🌌 আমাদের মহাজাগতিক প্রতিবেশী',
+                'nebula-desc': 'যখন আমরা আপনার লনের কাজ করি না, তখন আমরা তারার দিকে তাকিয়ে থাকি! এখানে আমাদের প্রিয় গভীর মহাকাশের কিছু বিস্ময় রয়েছে:',
+                'neb-m16-title': 'ঈগল নেবুলা (M16)', 'neb-m16-desc': 'প্রায় ৫,৭০০ আলোকবর্ষ দূরে অবস্থিত, এটি তার আইকনিক "পিলার্স অফ ক্রিয়েশন" এর জন্য বিশ্বজুড়ে বিখ্যাত, যেখানে নতুন তারার জন্ম হয়।',
+                'neb-m17-title': 'ওমেগা নেবুলা', 'neb-m17-desc': 'এটি সোয়ান বা হর্সশু নেবুলা নামেও পরিচিত, এটি ধনু রাশিতে পৃথিবী থেকে প্রায় ৫,৫০০ আলোকবর্ষ দূরে অবস্থিত একটি উজ্জ্বল তারা-গঠন অঞ্চল।',
+                'neb-m20-title': 'ট্রিফিড নেবুলা', 'neb-m20-desc': 'তার স্বতন্ত্র তিনটি অংশের চেহারার জন্য বিখ্যাত, এটি অনন্যভাবে একটি নির্গমন নেবুলা (লাল), একটি প্রতিফলন নেবুলা (নীল) এবং অন্ধকার শোষণ লেনকে একত্রিত করে।',
+                'neb-m8-title': 'লগুন নেবুলা', 'neb-m8-desc': 'গ্যাস এবং ধূলিকণার একটি বিশাল মেঘ যা দূরবীন দিয়ে সহজেই দেখা যায়, গ্যালাকটিক কেন্দ্রের দিকে ৪,০০০ আলোকবর্ষ দূরে অবস্থিত।'
+            },
+            zh: {
+                dir: 'ltr',
+                'nav-services': '服务项目',
+                'nav-pricing': '价格方案',
+                'nav-schedule': '营业时间',
+                'nav-summary': '关于我们',
+                'services-title': '我们能为您做些什么',
+                'services-desc': '我们让您在布鲁克斯的产业全年保持整洁美观！',
+                'card-mow-title': '🌱 割草服务',
+                'card-mow-desc': '干净、精准的修割，保持草坪健康靓丽。',
+                'card-leaf-title': '🍂 吹扫落叶',
+                'card-leaf-desc': '清理庭院、露台和车道上的落叶和碎屑。',
+                'card-snow-title': '❄️ 冬季除雪',
+                'card-snow-desc': '在寒冷的冬季为您的通道和车道提供快速安全的除雪。',
+                'pricing-title': '收费标准',
+                'pricing-desc': '极其优惠的价格，享受超凡水准的服务！',
+                'plan-basic-title': '基础版',
+                'btn-book-basic': '预订 基础版',
+                'plan-premium-title': '尊享版',
+                'btn-book-premium': '预订 尊享版',
+                'p1-l1': '后院打理', 'p1-l2': '前院打理', 'p1-l3': '标准割草服务', 'p1-l4': '吹扫落叶', 'p1-l5': '冬季除雪',
+                'p2-l1': '人行道修边与剪草', 'p2-l2': '后院与前院打理', 'p2-l3': '房屋周边全方位清理', 'p2-l4': '吹扫落叶', 'p2-l5': '冬季除雪',
+                'schedule-title': '工作时间表',
+                'schedule-desc': '请查看我们各季节的营业时间：',
+                'th-season': '季节', 'th-days': '营业日期', 'th-hours': '营业时间',
+                'td-spring': '春季', 'td-spring-days': '仅周日', 'td-spring-hours': '下午 1:00 - 下午 3:00',
+                'td-summer': '夏季', 'td-summer-sub': '(学校放假)', 'td-summer-days': '周一至周四', 'td-summer-hours': '下午 1:00 - 下午 4:00',
+                'td-fall': '秋季', 'td-fall-days': '仅周日', 'td-fall-hours': '下午 1:00 - 下午 3:00',
+                'td-winter': '冬季', 'td-winter-days': '仅周日', 'td-winter-hours': '下午 1:00 - 下午 3:00',
+                'summary-title': '业务总结',
+                'sum-name-lbl': '🏠 商家名称:', 'sum-name-val': 'Orioniscuts',
+                'sum-serv-lbl': '🛠️ 服务内容:', 'sum-serv-val': '我们提供季节性的庭院维护，包括专业的除草割草、快捷的吹叶，以及可靠的冬季扫雪除冰服务。',
+                'sum-avail-lbl': '📅 营业时间:',
+                'sum-avail-val1': '春、秋、冬季：仅限周日下午 1:00 至 3:00。',
+                'sum-avail-val2': '夏季：工作日（周一至周四）下午 1:00 至 4:00。',
+                'sum-area-lbl': '📍 服务区域:', 'sum-area-val': '为布鲁克斯本地社区提供热诚服务！',
+                'nebula-title': '🌌 宇宙邻居',
+                'nebula-desc': '当我们不割草时，我们就会抬头仰望星空！以下是我们最喜爱的一些深空奇观：',
+                'neb-m16-title': '鹰状星云 (M16)', 'neb-m16-desc': '位于约 5,700 光年之外，因包含标志性的“创生之柱”而闻名于世，这里是恒星新生的温床。',
+                'neb-m17-title': '欧米伽星云', 'neb-m17-desc': '也被称为天鹅星云或马蹄铁星云，这个明亮的恒星形成区位于人马座，距离地球约 5,500 光年。',
+                'neb-m20-title': '三叶星云', 'neb-m20-desc': '因其独特的三瓣状外观而著名，独特地结合了发射星云（红色）、反射星云（蓝色）和暗吸收尘埃带。',
+                'neb-m8-title': '礁湖星云', 'neb-m8-desc': '一个巨大的气体和尘埃云，通过小双筒望远镜清晰可见，位于银河系中心方向约 4,000 光年处。'
+            },
+            ja: {
+                dir: 'ltr',
+                'nav-services': 'サービス案内',
+                'nav-pricing': '料金プラン',
+                'nav-schedule': '営業スケジュール',
+                'nav-summary': '会社概要',
+                'services-title': 'お任せいただけるサービス',
+                'services-desc': 'ブルックスにて、年間を通じてお客様の敷地をクリーンで美しく維持します！',
+                'card-mow-title': '🌱 芝刈り',
+                'card-mow-desc': '健康的で美しい芝を保つため、正確でクリーンな刈り取りを行います。',
+                'card-leaf-title': '🍂 落ち葉掃除',
+                'card-leaf-desc': 'お庭やウッドデッキ、車道から散らかった落ち葉をブロワーで吹き飛ばし清賞します。',
+                'card-snow-title': '❄️ 除雪・雪かき',
+                'card-snow-desc': '寒い冬の間、通路や車道などの安全な除雪を迅速に行います。',
+                'pricing-title': 'ご利用料金',
+                'pricing-desc': '別次元のハイクオリティなサービスを、お手頃な価格で！',
+                'plan-basic-title': 'ベーシック',
+                'btn-book-basic': 'ベーシックを予約',
+                'plan-premium-title': 'プレミアム',
+                'btn-book-premium': 'プレミアムを予約',
+                'p1-l1': '裏庭のお手入れ', 'p1-l2': '前庭のお手入れ', 'p1-l3': '標準的な芝刈り', 'p1-l4': '落ち葉掃除', 'p1-l5': '冬の雪かき',
+                'p2-l1': '歩道境界・細部の芝刈り', 'p2-l2': '裏庭＆前庭すべて', 'p2-l3': 'お家の周りのトータルケア', 'p2-l4': '落ち葉掃除', 'p2-l5': '冬の雪かき',
+                'schedule-title': '営業スケジュール',
+                'schedule-desc': '各季節の営業時間については以下をご覧ください：',
+                'th-season': '季節', 'th-days': '営業日', 'th-hours': '営業時間',
+                'td-spring': '春', 'td-spring-days': '日曜日のみ', 'td-spring-hours': '午後 1:00 - 午後 3:00',
+                'td-summer': '夏', 'td-summer-sub': '(学校休み期間)', 'td-summer-days': '月曜日～木曜日', 'td-summer-hours': '午後 1:00 - 午後 4:00',
+                'td-fall': '秋', 'td-fall-days': '日曜日のみ', 'td-fall-hours': '午後 1:00 - 午後 3:00',
+                'td-winter': '冬', 'td-winter-days': '日曜日のみ', 'td-winter-hours': '午後 1:00 - 午後 3:00',
+                'summary-title': 'ビジネスサマリー',
+                'sum-name-lbl': '🏠 店舗名:', 'sum-name-val': 'Orioniscuts',
+                'sum-serv-lbl': '🛠️ 提供サービス:', 'sum-serv-val': 'プロによる芝刈り、素早い落ち葉の吹き飛ばし、信頼できる冬季除雪など、季節ごとの庭のお手入れを承ります。',
+                'sum-avail-lbl': '📅 営業時間:',
+                'sum-avail-val1': '春・秋・冬：日曜日のみ、午後 1:00 ～ 午後 3:00。',
+                'sum-avail-val2': '夏：平日（月曜～木曜）午後 1:00 ～ 午後 4:00。',
+                'sum-area-lbl': '📍 出張エリア:', 'sum-area-val': 'ブルックスの地域コミュニティに根ざして元気に活動中！',
+                'nebula-title': '🌌 宇宙の仲間たち',
+                'nebula-desc': '私たちが庭仕事をしていない時は、夜空の星を見上げています！大好きなディープスペースの神秘の一部を紹介します：',
+                'neb-m16-title': 'わし星雲 (M16)', 'neb-m16-desc': '約5,700光年彼方にあり、活発な星形成が行われているアイコニックな「創造の柱」があることで世界的に有名です。',
+                'neb-m17-title': 'オメガ星雲', 'neb-m17-desc': '白鳥星雲やオーム星雲とも呼ばれ、いて座の方向、地球から約5,500光年の距離にある非常に明るい星形成領域です。',
+                'neb-m20-title': '三裂星雲', 'neb-m20-desc': '3つの葉に裂けたような特徴的な姿で知られ、ガスが光る赤色の部分と、星の光を反射する青色の部分、暗黒星雲の帯が美しく融合しています。',
+                'neb-m8-title': '干潟星雲', 'neb-m8-desc': '小型の双眼鏡でも容易に観察できる巨大なガスとチリの雲で、銀河中心方向、約4,000光年の場所に位置します。'
+            },
+            ko: {
+                dir: 'ltr',
+                'nav-services': '제공 서비스',
+                'nav-pricing': '가격 안내',
+                'nav-schedule': '운영 일정',
+                'nav-summary': '회사 소개',
+                'services-title': '고객님을 위한 맞춤형 서비스',
+                'services-desc': '브룩스 지역에서 연중 내내 고객님의 공간을 깔끔하게 유지해 드립니다!',
+                'card-mow-title': '🌱 잔디 깎기',
+                'card-mow-desc': '잔디의 건강과 미관을 살리는 깔끔하고 정밀한 예초 작업.',
+                'card-leaf-title': '🍂 낙엽 송풍',
+                'card-leaf-desc': '정원, 데크, 진입로에 쌓인 어지러운 낙엽과 잔해 청소.',
+                'card-snow-title': '❄️ 겨울 제설',
+                'card-snow-desc': '추운 겨울철 보행로와 차고 진입로의 신속하고 안전한 눈 치우기.',
+                'pricing-title': '서비스 비용',
+                'pricing-desc': '차원이 다른 고품격 조경 서비스를 합리적인 가격에 만나보세요!',
+                'plan-basic-title': '기본형',
+                'btn-book-basic': '기본형 예약하기',
+                'plan-premium-title': '프리미엄형',
+                'btn-book-premium': '프리미엄형 예약하기',
+                'p1-l1': '뒷마당 잔디 정돈', 'p1-l2': '앞마당 잔디 정돈', 'p1-l3': '표준 규격 잔디 깎기', 'p1-l4': '낙엽 청소', 'p1-l5': '겨울철 눈 치우기',
+                'p2-l1': '인도 가장자리 작업 및 예초', 'p2-l2': '앞마당 및 뒷마당 전체', 'p2-l3': '주택 주변 구석구석 토탈 관리', 'p2-l4': '낙엽 청소', 'p2-l5': '겨울철 눈 치우기',
+                'schedule-title': '운영 시간표',
+                'schedule-desc': '각 계절별 세부 운영 시간표를 참고해 주세요:',
+                'th-season': '계절', 'th-days': '운영 요일', 'th-hours': '운영 시간',
+                'td-spring': '봄', 'td-spring-days': '일요일만 운영', 'td-spring-hours': '오후 1:00 - 오후 3:00',
+                'td-summer': '여름', 'td-summer-sub': '(학교 방학 기간)', 'td-summer-days': '월요일부터 목요일까지', 'td-summer-hours': '오후 1:00 - 오후 4:00',
+                'td-fall': '가을', 'td-fall-days': '일요일만 운영', 'td-fall-hours': '오후 1:00 - 오후 3:00',
+                'td-winter': '겨울', 'td-winter-days': '일요일만 운영', 'td-winter-hours': '오후 1:00 - 오후 3:00',
+                'summary-title': '비즈니스 요약',
+                'sum-name-lbl': '🏠 업체명:', 'sum-name-val': 'Orioniscuts',
+                'sum-serv-lbl': '🛠️ 제공 서비스:', 'sum-serv-val': '전문적인 잔디 깎기, 신속한 낙엽 청소, 신뢰할 수 있는 겨울철 제설 작업을 포함한 계절별 정원 관리 서비스를 제공합니다.',
+                'sum-avail-lbl': '📅 이용 가능 시간:',
+                'sum-avail-val1': '봄, 가을 및 겨울: 일요일만 오후 1:00 ~ 오후 3:00 운영.',
+                'sum-avail-val2': '여름: 평일(월요일~목요일) 오후 1:00 ~ 오후 4:00 운영.',
+                'sum-area-lbl': '📍 서비스 지역:', 'sum-area-val': '브룩스 지역 주민들의 든든한 일손이 되어 드립니다!',
+                'nebula-title': '🌌 우주의 신비',
+                'nebula-desc': '정원 관리를 잠시 멈출 때, 저희는 밤하늘의 우주를 동경하곤 합니다! 좋아하는 심우주의 경이로운 천체들을 소개합니다:',
+                'neb-m16-title': '독수리 성운 (M16)', 'neb-m16-desc': '약 5,700광년 거리에 위치해 있으며, 활발하게 별이 태어나는 유명한 "창조의 기둥"을 품고 있어 세계적으로 널리 알려져 있습니다.',
+                'neb-m17-title': '오메가 성운', 'neb-m17-desc': '백조 성운 또는 편자 성운으로도 불리며, 궁수자리에 위치하여 지구로부터 약 5,500광년 떨어져 있는 매우 밝은 항성 탄생 영역입니다.',
+                'neb-m20-title': '삼열 성운', 'neb-m20-desc': '세 갈래로 갈라진 독특한 형태가 특징으로, 붉은색 방출 성운, 푸른색 반사 성운, 어두운 암흑 성운의 먼지 띠가 환상적으로 어우러져 있습니다.',
+                'neb-m8-title': '석굴 성운 (라군 성운)', 'neb-m8-desc': '은하 중심 방향으로 약 4,000광년 떨어져 있으며, 소형 쌍안경으로도 넓게 퍼진 가스와 우주 먼지 구름을 관측할 수 있습니다.'
+            },
+            om: {
+                dir: 'ltr',
+                'nav-services': 'Tajaajila Keenya',
+                'nav-pricing': 'Kaffaltii Keenya',
+                'nav-schedule': 'Sa\'aatii fi Guyyaa',
+                'nav-summary': 'Gabaaba Keenya',
+                'services-title': 'Maal Isiniif Gochuu Dandeenya',
+                'services-desc': 'Brooks keessatti waggaa guutuu qabeenya keessan qulqulluu fi sirreeffamaa goonee ni eegna!',
+                'card-mow-title': '🌱 Marga Muruu',
+                'card-mow-desc': 'Marga keessan fayyaa qabeessaa fi bareedaa gochuuf haala sirriin muruu.',
+                'card-leaf-title': '🍂 Baala Qulqulleessuu',
+                'card-leaf-desc': 'Baalota guffatan dachaawwan, mooraa fi daandiiwwan irraa afuufanii deemsisuu.',
+                'card-snow-title': '❄️ Cabbii Haquu',
+                'card-snow-desc': 'Waqtii gannaa cabbii karaa deemsaa fi daandii konkolaataa irraa haala amansiisaan qulqulleessuu.',
+                'pricing-title': 'Kaffaltii Keenya',
+                'pricing-desc': 'Tajaajila addaa gatii gad-aanaadhaan!',
+                'plan-basic-title': 'Gatii Gadii',
+                'btn-book-basic': 'Gatii Gadii Qabadhu',
+                'plan-premium-title': 'Gatii Ol-aanaa',
+                'btn-book-premium': 'Gatii Ol-aanaa Qabadhu',
+                'p1-l1': 'Mooraa Duubaa Kunuunsuu', 'p1-l2': 'Mooraa Fuulduraa Kunuunsuu', 'p1-l3': 'Marga Muruu Haala Baramaa', 'p1-l4': 'Baala Qulqulleessuu', 'p1-l5': 'Waqtii Gannaa Cabbii Haquu',
+                'p2-l1': 'Daandii fi Marga Muruu', 'p2-l2': 'Mooraa Duubaa fi Fuulduraa', 'p2-l3': 'Waan Naannoo Manaa Jiru Hunda', 'p2-l4': 'Baala Qulqulleessuu', 'p2-l5': 'Waqtii Gannaa Cabbii Haquu',
+                'schedule-title': 'Sagantaa Hojii Keenya',
+                'schedule-desc': 'Waqtiilee hojii keenya waqtiilee adda addaaf gadii kanaan ilaalaa:',
+                'th-season': 'Waqtii', 'th-days': 'Guyyaa Banamaa', 'th-hours': 'Sa\'aatii Hojii',
+                'td-spring': 'Arfaasaa', 'td-spring-days': 'Dilbata Qofa', 'td-spring-hours': '1:00 PM - 3:00 PM',
+                'td-summer': 'Bona', 'td-summer-sub': '(Mana Barumsaa Cufame)', 'td-summer-days': 'Wiixata hanga Kamisaa', 'td-summer-hours': '1:00 PM - 4:00 PM',
+                'td-fall': 'Birraa', 'td-fall-days': 'Dilbata Qofa', 'td-fall-hours': '1:00 PM - 3:00 PM',
+                'td-winter': 'Ganna', 'td-winter-days': 'Dilbata Qofa', 'td-winter-hours': '1:00 PM - 3:00 PM',
+                'summary-title': 'Ibsa Gabaabaa',
+                'sum-name-lbl': '🏠 Maqaa Hojii:', 'sum-name-val': 'Orioniscuts',
+                'sum-serv-lbl': '🛠️ Tajaajilawwan:', 'sum-serv-val': 'Kunuunsa mooraa waqtiidhaan dhiyeessina, marga muruu, baala afuufuu, fi qulqulleessuu cabbii gannaatiin wal qabatee.',
+                'sum-avail-lbl': '📅 Argama Hojii:',
+                'sum-avail-val1': 'Arfaasaa, Birraa & Ganna: Dilbata qofa sa\'aatii 1:00 PM hanga 3:00 PM.',
+                'sum-avail-val2': 'Bona: Guyyoota Hojii (Wiixata–Kamisa) sa\'aatii 1:00 PM hanga 4:00 PM.',
+                'sum-area-lbl': '📍 Naannoo Hojii:', 'sum-area-val': 'Hawaasa naannoo Brooks tajaajiluu keenyatti ni boonna!',
+                'nebula-title': '🌌 Ollaa Samii Keenya',
+                'nebula-desc': 'Yeroo marga keessan hin hojjennetti, gara urjiiwwaniitti ol-ilaalla! Ollaa samii keenya warra jaallataman:',
+                'neb-m16-title': 'Eagle Nebula (M16)', 'neb-m16-desc': 'Fageenya waggaa ifa 5,700 irratti argama, urjiiwwan haaraan bakka itti dhalatan "Pillars of Creation" kan qabu ta\'uu isaatiin beekamaadha.',
+                'neb-m17-title': 'Omega Nebula', 'neb-m17-desc': 'Akkasumas Swan Nebula jedhamee beekama, naannoo uumama urjii ifaa fageenya ifa 5,500 irratti argamuudha.',
+                'neb-m20-title': 'Trifid Nebula', 'neb-m20-desc': 'Bifasoota sadii qabaachuu isaatiin beekamaa, haala addaan halluu diimaa fi cuquliisa akkasumas dhummuuggaa qaba.',
+                'neb-m8-title': 'Lagoon Nebula', 'neb-m8-desc': 'Hurruma qilleensaa fi dhummuuggaa fageenya waggaa ifa 4,000 irratti argamuudha.'
+            },
+            so: {
+                dir: 'ltr',
+                'nav-services': 'Adeegyadayada',
+                'nav-pricing': 'Qorshayaasha Qiimaha',
+                'nav-schedule': 'Saacadaha & Taariikhaha',
+                'nav-summary': 'Guudmarka Ganacsiga',
+                'services-title': 'Waxa aan kuu qaban karno',
+                'services-desc': 'Waxa aan hantidaada ka dhigaynaa mid nadiif ah sanadka oo dhan magaalada Brooks!',
+                'card-mow-title': '🌱 Jaridda Cawska',
+                'card-mow-desc': 'Goyn nadiif ah oo sax ah si cawskaagu u ahaado mid caafimaad qaba una muuqdo mid qurux badan.',
+                'card-leaf-title': '🍂 Afuufidda Caleemaha',
+                'card-leaf-desc': 'Nadiifinta caleemaha daadsan iyo qashinka ka jira barxadaha iyo waddooyinka gaadiidka.',
+                'card-snow-title': '❄️ Shushidda Barafka',
+                'card-snow-desc': 'Ka saarista barafka si degdeg ah oo ammaan ah inta lagu jiro xilliga qaboobaha.',
+                'pricing-title': 'Qiimahayaga',
+                'pricing-desc': 'Adeeg aad u tayo sarreeya oo qiimo jaban ah!',
+                'plan-basic-title': 'Aasaasiga',
+                'btn-book-basic': 'Dalbo Aasaasiga',
+                'plan-premium-title': 'Gaarka ah',
+                'btn-book-premium': 'Dalbo Gaarka ah',
+                'p1-l1': 'Daryeelka Barxada Gadaale', 'p1-l2': 'Daryeelka Barxada Hore', 'p1-l3': 'Jaridda Cawska ee Caadiga ah', 'p1-l4': 'Afuufidda caleemaha', 'p1-l5': 'Xaaqidda barafka xilliga qaboobaha',
+                'p2-l1': 'Jaridda Hareeraha Waddooyinka & Cawska', 'p2-l2': 'Barxada Hore & Gadaaleba', 'p2-l3': 'Wax kasta oo ku xeeran guriga', 'p2-l4': 'Afuufidda caleemaha', 'p2-l5': 'Xaaqidda barafka xilliga qaboobaha',
+                'schedule-title': 'Jadwalka Shaqada',
+                'schedule-desc': 'Fiiri saacadaha aan shaqayno xilli kasta hoos:',
+                'th-season': 'Xilliga', 'th-days': 'Maalmaha Furan', 'th-hours': 'Saacadaha Shaqada',
+                'td-spring': 'Gu\'ga', 'td-spring-days': 'Axadda Kaliya', 'td-spring-hours': '1:00 PM - 3:00 PM',
+                'td-summer': 'Xagaaga', 'td-summer-sub': '(Iskuulada oo xiran)', 'td-summer-days': 'Isniin ilaa Khamiis', 'td-summer-hours': '1:00 PM - 4:00 PM',
+                'td-fall': 'Dayrta', 'td-fall-days': 'Axadda Kaliya', 'td-fall-hours': '1:00 PM - 3:00 PM',
+                'td-winter': 'Jiilaalka', 'td-winter-days': 'Axadda Kaliya', 'td-winter-hours': '1:00 PM - 3:00 PM',
+                'summary-title': 'Guudmarka Ganacsiga',
+                'sum-name-lbl': '🏠 Magaca Ganacsiga:', 'sum-name-val': 'Orioniscuts',
+                'sum-serv-lbl': '🛠️ Adeegyada la Bixiyo:', 'sum-serv-val': 'Waxaan bixinaa daryeelka barxadaha ee xilliyeedka ah oo ay ku jiraan jaridda cawska, afuufidda caleemaha, iyo xaaqidda barafka xilliga qaboobaha.',
+                'sum-avail-lbl': '📅 Helitaanka:',
+                'sum-avail-val1': 'Gu\'ga, Dayrta & Jiilaalka: Axadaha kaliya laga bilaabo 1:00 PM ilaa 3:00 PM.',
+                'sum-avail-val2': 'Xagaaga: Maalmaha shaqada (Isniin–Khamiis) laga bilaabo 1:00 PM ilaa 4:00 PM.',
+                'sum-area-lbl': '📍 Goobta Adeegga:', 'sum-area-val': 'Waxaan ku hanweynahay u adeegidda bulshada maxalliga ah ee Brooks!',
+                'nebula-title': '🌌 Deriskayaga Caalamka',
+                'nebula-desc': 'Marka aanan ku guda jirin jaridda cawskaaga, waxaan eegnaa xiddigaha! Waa kuwan qaar ka mid ah waxyaabaha aan ugu jecelnahay hawada sare:',
+                'neb-m16-title': 'Eagle Nebula (M16)', 'neb-m16-desc': 'Waxay ku taal qiyaastii 5,700 oo sano oo iftiin ah, waxayna caan ku tahay inay ka kooban tahay "Tiirarka Abuurista", halkaas oo xiddigaha cusub ku dhashaan.',
+                'neb-m17-title': 'Omega Nebula', 'neb-m17-desc': 'Sidoo kale loo yaqaano Swan Nebula, goobtan firfircoon ee u samaysan qaabka kabka fardaha waxay u jirtaa dhulka 5,500 sano oo iftiin ah.',
+                'neb-m20-title': 'Trifid Nebula', 'neb-m20-desc': 'Waxay caan ku tahay muuqaalkeeda saddexda qaybood leh, waxayna si gaar ah isugu daraysaa qayb casaan ah iyo buluug ah oo dhalaalaya.',
+                'neb-m8-title': 'Lagoon Nebula', 'neb-m8-desc': 'Daruur weyn oo gaas iyo boodh ah oo lagu arki karo muraayadaha indhaha ee yar yar, kuna taal jihada bartamaha galaxyada 4,000 oo sano oo iftiin ah.'
+            },
+            ar: {
+                dir: 'rtl',
+                'nav-services': 'خدماتنا',
+                'nav-pricing': 'خطط الأسعار',
+                'nav-schedule': 'الأوقات والتواريخ',
+                'nav-summary': 'ملخص أعمالنا',
+                'services-title': 'ما يمكننا القيام به لأجلك',
+                'services-desc': 'نحافظ على ممتلكاتك نظيفة ومرتبة طوال العام في بروكس!',
+                'card-mow-title': '🌱 جز العشب',
+                'card-mow-desc': 'قصات نظيفة ودقيقة للحفاظ على صحة عشبك ومظهره الأنيق.',
+                'card-leaf-title': '🍂 نفخ أوراق الشجر',
+                'card-leaf-desc': 'تنظيف الأوراق المتناثرة والأنقاض من الساحات والأسطح والممرات.',
+                'card-snow-title': '❄️ إزالة الثلوج',
+                'card-snow-desc': 'إزالة الثلوج بسرعة وأمان من الممرات خلال فصل الشتاء البارد.',
+                'pricing-title': 'أسعارنا',
+                'pricing-desc': 'خدمة استثنائية وبأسعار في متناول الجميع!',
+                'plan-basic-title': 'الأساسية',
+                'btn-book-basic': 'احجز الأساسية',
+                'plan-premium-title': 'المميزة',
+                'btn-book-premium': 'احجز المميزة',
+                'p1-l1': 'العناية بالحديقة الخلفية', 'p1-l2': 'العناية بالحديقة الأمامية', 'p1-l3': 'قص العشب القياسي', 'p1-l4': 'نفخ الأوراق', 'p1-l5': 'جرف الثلج الشتوي',
+                'p2-l1': 'قص الرصيف وقص العشب', 'p2-l2': 'الحديقة الخلفية والأماميّة', 'p2-l3': 'كل ما يحيط بالمنزل', 'p2-l4': 'نفخ الأوراق', 'p2-l5': 'جرف الثلج الشتوي',
+                'schedule-title': 'جدول عملنا',
+                'schedule-desc': 'تحقق من ساعات عملنا لكل موسم أدناه:',
+                'th-season': 'الموسم', 'th-days': 'أيام العمل', 'th-hours': 'ساعات العمل',
+                'td-spring': 'الربيع', 'td-spring-days': 'الأحد فقط', 'td-spring-hours': '1:00 مساءً - 3:00 مساءً',
+                'td-summer': 'الصيف', 'td-summer-sub': '(المدارس مغلقة)', 'td-summer-days': 'من الإثنين إلى الخميس', 'td-summer-hours': '1:00 مساءً - 4:00 مساءً',
+                'td-fall': 'الخريف', 'td-fall-days': 'الأحد فقط', 'td-fall-hours': '1:00 مساءً - 3:00 مساءً',
+                'td-winter': 'الشتاء', 'td-winter-days': 'الأحد فقط', 'td-winter-hours': '1:00 مساءً - 3:00 مساءً',
+                'summary-title': 'ملخص العمل',
+                'sum-name-lbl': '🏠 اسم الشركة:', 'sum-name-val': 'Orioniscuts',
+                'sum-serv-lbl': '🛠️ الخدمات المقدمة:', 'sum-serv-val': 'نقدم خدمات صيانة ساحات المنازل الموسمية بما في ذلك جز العشب الاحترافي، ونفخ أوراق الشجر السريع، وإزالة الثلوج الشتوية الموثوقة.',
+                'sum-avail-lbl': '📅 أوقات العمل والتوفر:',
+                'sum-avail-val1': 'الربيع والخريف والشتاء: أيام الأحد فقط من الساعة 1:00 مساءً حتى 3:00 مساءً.',
+                'sum-avail-val2': 'الصيف: أيام الأسبوع (من الإثنين إلى الخميس) من الساعة 1:00 مساءً حتى 4:00 مساءً.',
+                'sum-area-lbl': '📍 منطقة الخدمة:', 'sum-area-val': 'نخدم بكل فخر المجتمع المحلي في بروكس!',
+                'nebula-title': '🌌 جيراننا في الكون',
+                'nebula-desc': 'عندما لا نكون منشغلين بالعناية بحديقتك، فنحن ننظر للأعلى نحو النجوم! إليك بعض من عجائب الفضاء البعيد المفضلة لدينا:',
+                'neb-m16-title': 'سديم النسر (M16)', 'neb-m16-desc': 'يقع على بعد حوالي 5700 سنة ضوئية، وهو مشهور عالميًا باحتوائه على "أعمدة الخلق" الأيقونية حيث تولد النجوم.',
+                'neb-m17-title': 'سديم أوميغا', 'neb-m17-desc': 'يُعرف أيضًا باسم سديم البجعة، تقع منطقة تشكل النجوم اللامعة هذه على بعد حوالي 5500 سنة ضوئية من الأرض في كوكبة الرامي.',
+                'neb-m20-title': 'سديم trifid (ثلاثي الفصوص)', 'neb-m20-desc': 'يشتهر بمظهره المميز المكون من ثلاثة فصوص، ويجمع بشكل فريد بين سديم انبعاثي (أحمر)، وسديم انعكاسي (أزرق)، وممرات غبار مظلمة امتصاصية.',
+                'neb-m8-title': 'سديم البحيرة', 'neb-m8-desc': 'سحابة ضخمة من الغاز والغبار مرئية من خلال المناظير الصغيرة، وتقع على بعد 4000 سنة ضوئية في اتجاه مركز المجرة.'
+            }
+        };
+
+        function changeLanguage(lang) {
+            const data = translations[lang] || translations.en;
+            
+            // Apply text direction (RTL/LTR) globally to the body
+            document.body.setAttribute('dir', data.dir);
+
+            // Translate each identified elements
+            Object.keys(data).forEach(id => {
+                if (id === 'dir') return; // Skip dir meta key
+                const element = document.getElementById(id);
+                if (element) {
+                    element.innerHTML = data[id];
+                }
+            });
+        }
+
+        // --- BACKGROUND SPACE CANVAS CORE ---
+        const canvas = document.getElementById('spaceCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Dynamic elements definition that adapts automatically on resize
+        const celestialBodies = {
+            sun: { x: 250, y: 300, radius: 50, isExploded: false, explosionProgress: 0, nebulaType: null },
+            neptune: { angle: 0, distance: 360, radius: 14, speed: 0.003, color: '#2b65ec' },
+            saturn: { angle: 1.5, distance: 240, radius: 20, speed: 0.005, color: '#e2bf7d', ringInner: 26, ringOuter: 42, ringColor: 'rgba(210, 180, 140, 0.45)' }
+        };
+
+        let blackHoles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            // Recalculate Black Hole positions relative to new viewport dimensions
+            blackHoles = [
+                { x: canvas.width * 0.78, y: canvas.height * 0.35, radius: 32, influenceRadius: 260, warpStrength: 65, isMain: true },
+                { x: canvas.width * 0.15, y: canvas.height * 0.75, radius: 18, influenceRadius: 150, warpStrength: 40, isMain: false },
+                { x: canvas.width * 0.85, y: canvas.height * 0.8, radius: 14, influenceRadius: 120, warpStrength: 30, isMain: false }
+            ];
+
+            // Anchor sun position to dynamic heights
+            celestialBodies.sun.x = canvas.width * 0.22;
+            celestialBodies.sun.y = canvas.height * 0.28;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Stars (Twinkling space lights)
+        const stars = [];
+        for (let i = 0; i < 160; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 1.5 + 0.5,
+                twinkleSpeed: 0.008 + Math.random() * 0.02,
+                phase: Math.random() * Math.PI * 2,
+                color: Math.random() > 0.85 ? '#bdf0ff' : (Math.random() > 0.85 ? '#fff3db' : '#ffffff')
+            });
+        }
+
+        // Comets (Flowing space anomalies)
+        const comets = [];
+        for (let i = 0; i < 3; i++) {
+            comets.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * (canvas.height / 2),
+                vx: -2 - Math.random() * 2,
+                vy: 0.5 + Math.random() * 1,
+                size: Math.random() * 2 + 1,
+                length: 40 + Math.random() * 40
+            });
+        }
+
+        // Asteroids (Space rocks tumbling)
+        const asteroids = [];
+        for (let i = 0; i < 12; i++) {
+            asteroids.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: -0.5 - Math.random() * 1,
+                vy: -0.2 + Math.random() * 0.4,
+                size: Math.random() * 3 + 1.5,
+                angle: Math.random() * Math.PI * 2,
+                rotSpeed: 0.01 + Math.random() * 0.02
+            });
+        }
+
+        // Gravity Warping (Lensing computation)
+        function warpCoordinate(x, y, blackHolesList) {
+            let dxTotal = 0;
+            let dyTotal = 0;
+
+            blackHolesList.forEach(bh => {
+                const dx = x - bh.x;
+                const dy = y - bh.y;
+                const distSqr = dx * dx + dy * dy;
+                const dist = Math.sqrt(distSqr);
+
+                if (dist > bh.radius && dist < bh.influenceRadius) {
+                    const strength = (bh.warpStrength * bh.radius) / (dist - bh.radius + 8);
+                    dxTotal -= (dx / dist) * strength;
+                    dyTotal -= (dy / dist) * strength;
+                }
+            });
+
+            return { x: x + dxTotal, y: y + dyTotal };
+        }
+
+        // --- COSMIC SUPERNOVA CONFIGURATIONS ---
+        const nebulaPalettes = {
+            eagle: ['#ff4500', '#ffaa00', '#4a2c00', '#221100'], 
+            omega: ['#ff1493', '#c71585', '#4b0082', '#000000'], 
+            trifid: ['#ff3366', '#3366ff', '#1a0033', '#001a33'], 
+            lagoon: ['#00fa9a', '#1e90ff', '#000080', '#0a001a'] 
+        };
+
+        // Nebula Card Exploding triggers
+        document.querySelectorAll('.nebula-card').forEach(card => {
+            card.style.cursor = 'pointer'; 
+            card.addEventListener('click', (e) => {
+                const headingText = card.querySelector('h3').innerText.toLowerCase();
+                let chosenType = 'eagle';
+
+                if (headingText.includes('omega')) chosenType = 'omega';
+                else if (headingText.includes('trifid')) chosenType = 'trifid';
+                else if (headingText.includes('lagoon')) chosenType = 'lagoon';
+
+                celestialBodies.sun.isExploded = true;
+                celestialBodies.sun.explosionProgress = 0;
+                celestialBodies.sun.nebulaType = chosenType;
+            });
+        });
+
+        let time = 0;
+
+        function animate() {
+            // Space void gradient background
+            let bgGrad = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 0, canvas.width/2, canvas.height/2, Math.max(canvas.width, canvas.height));
+            bgGrad.addColorStop(0, '#111317');
+            bgGrad.addColorStop(1, '#050607');
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            time += 0.015;
+
+            celestialBodies.neptune.angle += celestialBodies.neptune.speed;
+            celestialBodies.saturn.angle += celestialBodies.saturn.speed;
+
+            // 1. Draw Comets
+            comets.forEach(comet => {
+                comet.x += comet.vx;
+                comet.y += comet.vy;
+
+                if (comet.x < -100 || comet.y > canvas.height + 100) {
+                    comet.x = canvas.width + 100;
+                    comet.y = Math.random() * (canvas.height / 2);
+                }
+
+                const warped = warpCoordinate(comet.x, comet.y, blackHoles);
+
+                ctx.save();
+                let tail = ctx.createLinearGradient(warped.x, warped.y, warped.x - comet.vx * comet.length * 0.1, warped.y - comet.vy * comet.length * 0.1);
+                tail.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+                tail.addColorStop(0.3, 'rgba(0, 200, 255, 0.3)');
+                tail.addColorStop(1, 'rgba(0, 100, 255, 0)');
+                
+                ctx.strokeStyle = tail;
+                ctx.lineWidth = comet.size;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(warped.x, warped.y);
+                ctx.lineTo(warped.x - comet.vx * 10, warped.y - comet.vy * 10);
+                ctx.stroke();
+                ctx.restore();
+            });
+
+            // 2. Draw Asteroids
+            asteroids.forEach(ast => {
+                ast.x += ast.vx;
+                ast.y += ast.vy;
+                ast.angle += ast.rotSpeed;
+
+                if (ast.x < -50) ast.x = canvas.width + 50;
+                if (ast.y < -50) ast.y = canvas.height + 50;
+                if (ast.y > canvas.height + 50) ast.y = -50;
+
+                const warped = warpCoordinate(ast.x, ast.y, blackHoles);
+
+                ctx.save();
+                ctx.translate(warped.x, warped.y);
+                ctx.rotate(ast.angle);
+                
+                ctx.fillStyle = '#4a4a4a';
+                ctx.strokeStyle = '#2d2d2d';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                for (let i = 0; i < 6; i++) {
+                    const radius = ast.size * (0.85 + Math.sin(i * 1.5) * 0.15);
+                    const angle = (i / 6) * Math.PI * 2;
+                    ctx.lineTo(Math.cos(angle) * radius, Math.sin(angle) * radius);
+                }
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+                ctx.restore();
+            });
+
+            // 3. Draw Stars with Gravitational Lensing
+            stars.forEach(star => {
+                star.phase += star.twinkleSpeed;
+                const alpha = 0.4 + Math.abs(Math.sin(star.phase)) * 0.6;
+                const warped = warpCoordinate(star.x, star.y, blackHoles);
+
+                ctx.save();
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle = star.color;
+
+                ctx.beginPath();
+                ctx.arc(warped.x, warped.y, star.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (star.size > 1.5) {
+                    ctx.shadowBlur = 4;
+                    ctx.shadowColor = star.color;
+                    ctx.beginPath();
+                    ctx.arc(warped.x, warped.y, star.size * 1.2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            });
+
+            // 4. Draw Local Sun OR Expanded Nebula Explosion
+            ctx.save();
+            const sun = celestialBodies.sun;
+
+            if (!sun.isExploded) {
+                // Sun
+                let sunGlow = ctx.createRadialGradient(sun.x, sun.y, 5, sun.x, sun.y, sun.radius * 2.5);
+                sunGlow.addColorStop(0, '#ffffff');
+                sunGlow.addColorStop(0.2, '#ffdd44');
+                sunGlow.addColorStop(0.6, '#ff6600');
+                sunGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                ctx.fillStyle = sunGlow;
+                ctx.beginPath();
+                ctx.arc(sun.x, sun.y, sun.radius * 2.5, 0, Math.PI * 2);
+                ctx.fill();
+            } else {
+                // Supernova Explosion
+                if (sun.explosionProgress < 350) {
+                    sun.explosionProgress += 2.5; 
+                }
+                
+                const palette = nebulaPalettes[sun.nebulaType] || nebulaPalettes.eagle;
+                const currentRadius = sun.radius + sun.explosionProgress;
+                
+                let nebGrad = ctx.createRadialGradient(sun.x, sun.y, sun.radius * 0.2, sun.x, sun.y, currentRadius);
+                const fadeAlpha = Math.max(0, 1 - (sun.explosionProgress / 350));
+                
+                nebGrad.addColorStop(0, 'rgba(255, 255, 255,' + fadeAlpha + ')');
+                nebGrad.addColorStop(0.25, palette[0] + Math.floor(fadeAlpha * 255).toString(16).padStart(2, '0'));
+                nebGrad.addColorStop(0.55, palette[1] + Math.floor(fadeAlpha * 180).toString(16).padStart(2, '0'));
+                nebGrad.addColorStop(0.85, palette[2] + Math.floor(fadeAlpha * 90).toString(16).padStart(2, '0'));
+                nebGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                
+                ctx.fillStyle = nebGrad;
+                ctx.beginPath();
+                
+                ctx.moveTo(sun.x + currentRadius, sun.y);
+                for (let a = 0; a < Math.PI * 2; a += 0.1) {
+                    const noise = 1 + Math.sin(a * 8 + time) * 0.08 + Math.cos(a * 3 - time) * 0.04;
+                    const r = currentRadius * noise;
+                    ctx.lineTo(sun.x + Math.cos(a) * r, sun.y + Math.sin(a) * r);
+                }
+                ctx.closePath();
+                ctx.fill();
+
+                if (sun.explosionProgress >= 350) {
+                    sun.isExploded = false;
+                    sun.explosionProgress = 0;
+                }
+            }
+            ctx.restore();
+
+            // 5. Draw Saturn
+            const saturnX = celestialBodies.sun.x + Math.cos(celestialBodies.saturn.angle) * celestialBodies.saturn.distance;
+            const saturnY = celestialBodies.sun.y + Math.sin(celestialBodies.saturn.angle) * celestialBodies.saturn.distance;
+            const warpedSaturn = warpCoordinate(saturnX, saturnY, blackHoles);
+
+            ctx.save();
+            let saturnGrad = ctx.createRadialGradient(
+                warpedSaturn.x - 5, warpedSaturn.y - 5, 2,
+                warpedSaturn.x, warpedSaturn.y, celestialBodies.saturn.radius
+            );
+            saturnGrad.addColorStop(0, '#fff3db');
+            saturnGrad.addColorStop(0.7, celestialBodies.saturn.color);
+            saturnGrad.addColorStop(1, '#a68246');
+
+            ctx.fillStyle = saturnGrad;
+            ctx.beginPath();
+            ctx.arc(warpedSaturn.x, warpedSaturn.y, celestialBodies.saturn.radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = celestialBodies.saturn.ringColor;
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.ellipse(warpedSaturn.x, warpedSaturn.y, celestialBodies.saturn.ringOuter, celestialBodies.saturn.ringOuter * 0.4, Math.PI / 8, 0, Math.PI * 2);
+            ctx.stroke();
+
+            ctx.strokeStyle = 'rgba(255, 245, 220, 0.25)';
+            ctx.lineWidth = 1.2;
+            ctx.beginPath();
+            ctx.ellipse(warpedSaturn.x, warpedSaturn.y, celestialBodies.saturn.ringInner + 4, (celestialBodies.saturn.ringInner + 4) * 0.4, Math.PI / 8, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.restore();
+
+            // 6. Draw Neptune
+            const neptuneX = celestialBodies.sun.x + Math.cos(celestialBodies.neptune.angle) * celestialBodies.neptune.distance;
+            const neptuneY = celestialBodies.sun.y + Math.sin(celestialBodies.neptune.angle) * celestialBodies.neptune.distance;
+            const warpedNeptune = warpCoordinate(neptuneX, neptuneY, blackHoles);
+
+            ctx.save();
+            let neptuneGrad = ctx.createRadialGradient(
+                warpedNeptune.x - 3, warpedNeptune.y - 3, 2,
+                warpedNeptune.x, warpedNeptune.y, celestialBodies.neptune.radius
+            );
+            neptuneGrad.addColorStop(0, '#7ca3f7');
+            neptuneGrad.addColorStop(1, celestialBodies.neptune.color);
+            ctx.fillStyle = neptuneGrad;
+            ctx.beginPath();
+            ctx.arc(warpedNeptune.x, warpedNeptune.y, celestialBodies.neptune.radius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+
+            // 7. Draw Black Holes
+            blackHoles.forEach(bh => {
+                if (bh.isMain) {
+                    ctx.save();
+                    let diskGlow = ctx.createRadialGradient(bh.x, bh.y, bh.radius, bh.x, bh.y, bh.radius * 3.4);
+                    diskGlow.addColorStop(0, 'rgba(255, 230, 180, 0.9)');
+                    diskGlow.addColorStop(0.25, 'rgba(255, 120, 10, 0.65)');
+                    diskGlow.addColorStop(0.65, 'rgba(150, 40, 0, 0.15)');
+                    diskGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                    
+                    ctx.fillStyle = diskGlow;
+                    ctx.beginPath();
+                    ctx.arc(bh.x, bh.y, bh.radius * 3.4, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+                    ctx.lineWidth = 1.8;
+                    ctx.beginPath();
+                    ctx.arc(bh.x, bh.y, bh.radius + 2, 0, Math.PI * 2);
+                    ctx.stroke();
+
+                    ctx.fillStyle = '#000000';
+                    ctx.beginPath();
+                    ctx.arc(bh.x, bh.y, bh.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                } else {
+                    ctx.save();
+                    let lensGlow = ctx.createRadialGradient(bh.x, bh.y, bh.radius, bh.x, bh.y, bh.radius * 1.6);
+                    lensGlow.addColorStop(0, 'rgba(255, 255, 255, 0.55)');
+                    lensGlow.addColorStop(0.3, 'rgba(255, 255, 255, 0.15)');
+                    lensGlow.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+                    ctx.fillStyle = lensGlow;
+                    ctx.beginPath();
+                    ctx.arc(bh.x, bh.y, bh.radius * 1.6, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.fillStyle = '#000000';
+                    ctx.beginPath();
+                    ctx.arc(bh.x, bh.y, bh.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
